@@ -27,6 +27,12 @@ from weasyprint import HTML, CSS
 
 moon_names = ["MAGNETIC", "LUNAR", "ELECTRIC", "SELF-EXISTING", "OVERTONE", "RHYTHMIC", "RESONANT", "GALACTIC", "SOLAR", "PLANETARY", "SPECTRAL", "CRYSTAL", "COSMIC"]
 
+def get_moon_string(d, day, fullmoon):
+    if day.year == fullmoon.year and day.month == fullmoon.month and day.day == fullmoon.day:
+        return "<td><strong>" + str(d) +"</strong></br><small><strong>" + day.strftime("%d.%m") + "</strong></small></td>\n"
+    else:
+        return "<td><strong>" + str(d) +"</strong></br><small>" + day.strftime("%d.%m") + "</small></td>\n"
+
 def moon(moon, year):
     startdate = datetime.date(year, 7, 26)
     start = startdate + datetime.timedelta(days= 28 * (moon - 1))
@@ -49,37 +55,25 @@ def moon(moon, year):
     html += "<tr>\n"
     for d in range(1,8):
         day = start + datetime.timedelta(days=d - 1)
-        if day.year == fullmoon.year and day.month == fullmoon.month and day.day == fullmoon.day:
-            html += "<td><strong>" + str(d) +"</strong></br><small><strong>" + day.strftime("%d.%m") + "</strong></small></td>\n"
-        else:
-            html += "<td><strong>" + str(d) +"</strong></br><small>" + day.strftime("%d.%m") + "</small></td>\n"
-    
+        html += get_moon_string(d, day, fullmoon)
+  
     html += "</tr>\n"
     html += "<tr>\n"
     for d in range(8,15):
         day = start + datetime.timedelta(days=d - 1)
-        if day.year == fullmoon.year and day.month == fullmoon.month and day.day == fullmoon.day:
-            html += "<td><strong>" + str(d) +"</strong></br><small><strong>" + day.strftime("%d.%m") + "</strong></small></td>\n"
-        else:
-            html += "<td><strong>" + str(d) +"</strong></br><small>" + day.strftime("%d.%m") + "</small></td>\n"
+        html += get_moon_string(d, day, fullmoon)
     
     html += "</tr>\n"
     html += "<tr>\n"
     for d in range(15,22):
         day = start + datetime.timedelta(days=d - 1)
-        if day.year == fullmoon.year and day.month == fullmoon.month and day.day == fullmoon.day:
-            html += "<td><strong>" + str(d) +"</strong></br><small><strong>" + day.strftime("%d.%m") + "</strong></small></td>\n"
-        else:
-            html += "<td><strong>" + str(d) +"</strong></br><small>" + day.strftime("%d.%m") + "</small></td>\n"
+        html += get_moon_string(d, day, fullmoon)
 
     html += "</tr>\n"
     html += "<tr>\n"
     for d in range(22,29):
         day = start + datetime.timedelta(days=d - 1)
-        if day.year == fullmoon.year and day.month == fullmoon.month and day.day == fullmoon.day:
-            html += "<td><strong>" + str(d) +"</strong></br><small><strong>" + day.strftime("%d.%m") + "</strong></small></td>\n"
-        else:
-            html += "<td><strong>" + str(d) +"</strong></br><small>" + day.strftime("%d.%m") + "</small></td>\n"
+        html += get_moon_string(d, day, fullmoon)
 
     html += "</tr>\n"
     html += "</tbody>\n"
