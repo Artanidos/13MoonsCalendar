@@ -21,6 +21,7 @@
 import os
 import sys
 import datetime  
+import ephem
 from weasyprint import HTML, CSS
 
 
@@ -29,6 +30,8 @@ moon_names = ["MAGNETIC", "LUNAR", "ELECTRIC", "SELF-EXISTING", "OVERTONE", "RHY
 def moon(moon, year):
     startdate = datetime.date(year, 7, 26)
     start = startdate + datetime.timedelta(days= 28 * (moon - 1))
+    fullmoon = ephem.next_full_moon(start).datetime()
+
     html = "<h2>" + str(moon) + ". " + moon_names[moon - 1] + " MOON" + "</h2>"
     html += "<table class=\"moon\">\n"
     html += "<thead>\n"
@@ -46,25 +49,37 @@ def moon(moon, year):
     html += "<tr>\n"
     for d in range(1,8):
         day = start + datetime.timedelta(days=d - 1)
-        html += "<td><strong>" + str(d) +"</strong></br><small>" + day.strftime("%d.%m") + "</small></td>\n"
+        if day.year == fullmoon.year and day.month == fullmoon.month and day.day == fullmoon.day:
+            html += "<td><strong>" + str(d) +"</strong></br><small><strong>" + day.strftime("%d.%m") + "</strong></small></td>\n"
+        else:
+            html += "<td><strong>" + str(d) +"</strong></br><small>" + day.strftime("%d.%m") + "</small></td>\n"
     
     html += "</tr>\n"
     html += "<tr>\n"
     for d in range(8,15):
         day = start + datetime.timedelta(days=d - 1)
-        html += "<td><strong>" + str(d) +"</strong></br><small>" + day.strftime("%d.%m") + "</small></td>\n"
+        if day.year == fullmoon.year and day.month == fullmoon.month and day.day == fullmoon.day:
+            html += "<td><strong>" + str(d) +"</strong></br><small><strong>" + day.strftime("%d.%m") + "</strong></small></td>\n"
+        else:
+            html += "<td><strong>" + str(d) +"</strong></br><small>" + day.strftime("%d.%m") + "</small></td>\n"
     
     html += "</tr>\n"
     html += "<tr>\n"
     for d in range(15,22):
         day = start + datetime.timedelta(days=d - 1)
-        html += "<td><strong>" + str(d) +"</strong></br><small>" + day.strftime("%d.%m") + "</small></td>\n"
+        if day.year == fullmoon.year and day.month == fullmoon.month and day.day == fullmoon.day:
+            html += "<td><strong>" + str(d) +"</strong></br><small><strong>" + day.strftime("%d.%m") + "</strong></small></td>\n"
+        else:
+            html += "<td><strong>" + str(d) +"</strong></br><small>" + day.strftime("%d.%m") + "</small></td>\n"
 
     html += "</tr>\n"
     html += "<tr>\n"
     for d in range(22,29):
         day = start + datetime.timedelta(days=d - 1)
-        html += "<td><strong>" + str(d) +"</strong></br><small>" + day.strftime("%d.%m") + "</small></td>\n"
+        if day.year == fullmoon.year and day.month == fullmoon.month and day.day == fullmoon.day:
+            html += "<td><strong>" + str(d) +"</strong></br><small><strong>" + day.strftime("%d.%m") + "</strong></small></td>\n"
+        else:
+            html += "<td><strong>" + str(d) +"</strong></br><small>" + day.strftime("%d.%m") + "</small></td>\n"
 
     html += "</tr>\n"
     html += "</tbody>\n"
@@ -76,7 +91,9 @@ if __name__ == "__main__":
     year = 2020
     if len(sys.argv) == 2:
         year = int(sys.argv[1])
-        
+
+    #print(ephem.next_full_moon(datetime.date(year, 1, 1)))
+
     filename = "moons_" + str(year) + ".pdf"
     html = "<html>\n<head>\n"
     html += "<link href=\"file:///media/art/data/SourceCode/13Moons/Creator/style.css\" rel=\"stylesheet\" type=\"text/css\"/>\n"
